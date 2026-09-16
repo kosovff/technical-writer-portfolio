@@ -44,10 +44,15 @@ theme:
 
 nav:
   - Главная: index.md
+  
   - Руководство:
-      - Главная: user-guide/index.md
-      - О продукте: user-guide/about-product.md
-  - Инструкции: instructions/index.md
+      Главная: user-guide/index.md
+      О продукте: user-guide/about-product.md
+
+  - Инструкции:
+      Главная: instructions/index.md
+      Отложенное сообщение в Telegram: instructions/kosovff-instruction.md
+
   - API: api/index.md
   - Диаграммы: diagrams/index.md
   - Обо мне: about/index.md    
