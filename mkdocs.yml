@@ -1,0 +1,53 @@
+site_name:  Technical Writer Portfolio
+site_description: Портфолио технического писателя
+
+theme:
+  name: material
+  # logo: images/logo.svg
+
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+  language: ru
+
+  palette:
+    # Светлая тема
+    - scheme: default
+      toggle:
+        icon: material/weather-sunny
+        name: Переключить на тёмную тему
+      primary: teal
+      accent: teal
+
+    # Тёмная тема
+    - scheme: slate
+      toggle:
+        icon: material/weather-night
+        name: Переключить на светлую тему
+      primary: teal
+      accent: teal
+
+  features:
+    - navigation.sections
+    - navigation.path
+    - navigation.indexes
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.expand
+    - toc.integrate
+    - navigation.instant
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Главная: index.md
+  - Руководство:
+      - Главная: user-guide/index.md
+      - О продукте: user-guide/about-product.md
+  - Инструкции: instructions/index.md
+  - API: api/index.md
+  - Диаграммы: diagrams/index.md
+  - Обо мне: about/index.md    
