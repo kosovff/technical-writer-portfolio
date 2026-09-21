@@ -35,7 +35,7 @@ theme:
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.expand
-    - toc.integrate
+    #- toc.integrate
     - navigation.instant
     - navigation.top
     - search.suggest
@@ -44,15 +44,22 @@ theme:
 
 nav:
   - Главная: index.md
-  
   - Руководство:
-      Главная: user-guide/index.md
-      О продукте: user-guide/about-product.md
-
+      - Главная: user-guide/index.md
+      - О продукте: user-guide/about-product.md
   - Инструкции:
-      Главная: instructions/index.md
-      Отложенное сообщение в Telegram: instructions/kosovff-instruction.md
-
+      - Главная: instructions/index.md
+      - Отложенное сообщение в Telegram: instructions/kosovff-instruction.md
   - API: api/index.md
   - Диаграммы: diagrams/index.md
-  - Обо мне: about/index.md    
+  - Обо мне: about/index.md
+
+plugins:
+  - search
+  - tags:
+      tags_allowed:
+        - портфолио
+        - manuals
+        - rules
+        - helps
+  - glightbox
