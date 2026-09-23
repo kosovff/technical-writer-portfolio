@@ -51,7 +51,9 @@ nav:
       - Главная: instructions/index.md
       - Отложенное сообщение в Telegram: instructions/kosovff-instruction.md
       - Сценарий удаления заметки: instructions/delete-note-scenario.md
-  - API: api/index.md
+  - API: 
+      - Swagger: api/swagger.md
+      - Redoc: api/redoc.md
   - Диаграммы: diagrams/index.md
   - Обо мне: about/index.md
 
@@ -64,3 +66,5 @@ plugins:
         - rules
         - helps
   - glightbox
+  - swagger-ui-tag
+  - redoc-tag
