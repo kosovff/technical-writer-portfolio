@@ -2,4 +2,4 @@
 hide:
   - toc
 ---
-<swagger-ui src="../openapi.yml"/>
+<swagger-ui src="openapi.yml"/>

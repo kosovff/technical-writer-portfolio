@@ -51,10 +51,12 @@ nav:
       - Главная: instructions/index.md
       - Отложенное сообщение в Telegram: instructions/kosovff-instruction.md
       - Сценарий удаления заметки: instructions/delete-note-scenario.md
-  - API: 
+  - Спецификации: 
       - Swagger: api/swagger.md
-      - Redoc: api/redoc.md
-  - Диаграммы: diagrams/index.md
+      - Redoc: api/redoc.md    
+  - Диаграммы: 
+      - Главная: diagrams/index.md
+      - Диаграмма последовательности: diagram.md
   - Обо мне: about/index.md
 
 plugins:
@@ -67,4 +69,6 @@ plugins:
         - helps
   - glightbox
   - swagger-ui-tag
-  - redoc-tag
+  - redoc-tag  
+  - plantuml:
+      puml_url: https://www.plantuml.com/plantuml/ 
