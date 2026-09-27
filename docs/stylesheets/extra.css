@@ -1,0 +1,28 @@
+[data-md-color-scheme="default"] {
+    /* Цвет верхней панели */
+    --md-primary-fg-color: #BCCBC1;
+
+    /* Цвет текста на верхней панели */
+    --md-primary-bg-color: #1F3028;
+
+    /* Цвет ссылок при наведении */
+    --md-accent-fg-color: #4F6B58;
+
+    /* Основной цвет текста */
+    --md-default-fg-color: #4A4A4A;
+}
+
+/* Цвет ссылок в статьях */
+.md-typeset a {
+    color: #718C79;
+}
+
+/* Цвет ссылок при наведении */
+.md-typeset a:hover {
+    color: #4F6B58;
+}
+
+/* Скругление углов фотографий и изображений */
+.md-typeset img {
+    border-radius: 12px;
+}
