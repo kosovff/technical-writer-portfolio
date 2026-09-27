@@ -1,0 +1,353 @@
+openapi: 3.0.0
+
+info:
+  title: NotesApp API
+  description: API приложения NotesApp
+  version: 1.0.0
+
+servers:
+  - url: http://notesapp.su/api
+    description: Основной сервер
+
+paths:
+  /notes:
+    get:
+      summary: Получить список всех заметок
+      description: |
+        **Используется при открытии приложения**
+        
+        Возвращает список всех заметок для отображения в основном интерфейсе.
+        Список отображается по умолчанию при входе в приложение.
+        Возвращает пустой массив, если заметок нет.
+      operationId: allnotesGET
+      tags:
+        - notes
+      responses:
+        '200':
+          description: Успешно получен список заметок
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotePreview'
+              example:
+                - id: 1
+                  title: "Покупки в магазине"
+                  preview: "Молоко, хлеб, яйца..."
+                  updatedAt: "2024-01-17T14:30:00Z"
+                - id: 2
+                  title: "Идеи для проекта"
+                  preview: "Добавить темную тему..."
+                  updatedAt: "2024-01-16T10:15:00Z"
+                - id: 3
+                  title: "Фильмы к просмотру"
+                  preview: "Интерстеллар, Начало..."
+                  updatedAt: "2024-01-15T18:45:00Z"
+        '204':
+          description: Нет заметок
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 0
+                items: {}
+              example: []
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    post:
+      summary: Создать новую заметку
+      description: Создание новой заметки
+      operationId: createNote
+      tags:
+        - notes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNoteRequest'
+            example:
+              title: "Новая заметка"
+              content: ""
+      responses:
+        '201':
+          description: Заметка успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+          headers:
+            Location:
+              description: URL созданной заметки
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /notes/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID заметки
+        schema:
+          type: integer
+          minimum: 1
+        example: 1
+
+    get:
+      summary: Получить полную заметку
+      description: |
+        **Используется при клике на заметку в списке**
+        
+        Возвращает полное содержимое заметки для отображения в режиме просмотра/редактирования.
+        Вызывается, когда пользователь нажимает на заметку в списке.
+      operationId: getNoteById
+      tags:
+        - notes
+      responses:
+        '200':
+          description: Успешно получена заметка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+              example:
+                id: 1
+                title: "Покупки в магазине"
+                content: |
+                  # Список покупок
+                  
+                  ## Молочные продукты:
+                  - Молоко 2.5% - 1 литр
+                  - Сыр российский - 200г
+                  - Йогурт натуральный - 4 шт
+                  
+                  ## Хлебобулочные:
+                  - Хлеб бородинский
+                  - Булочки с маком
+                  
+                  ## Овощи и фрукты:
+                  - Яблоки зеленые - 1кг
+                  - Помидоры - 500г
+                  - Огурцы - 3 шт
+                createdAt: "2024-01-15T10:30:00Z"
+                updatedAt: "2024-01-17T14:30:00Z"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    put:
+      summary: Обновить заметку
+      description: Полное обновление содержимого заметки
+      operationId: updateNote
+      tags:
+        - notes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNoteRequest'
+            example:
+              title: "Обновленный список покупок"
+              content: "Добавить масло сливочное..."
+      responses:
+        '200':
+          description: Заметка успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    delete:
+      summary: Удалить заметку
+      description: Удаление заметки по ID
+      operationId: deleteNote
+      tags:
+        - notes
+      responses:
+        '204':
+          description: Заметка успешно удалена
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+components:
+  schemas:
+    # Для списка заметок (превью)
+    NotePreview:
+      type: object
+      required:
+        - id
+        - title
+        - preview
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Уникальный идентификатор заметки
+          example: 1
+        title:
+          type: string
+          description: Заголовок заметки
+          example: "Мои заметки"
+        preview:
+          type: string
+          description: |
+            Краткое превью содержания.
+            Первые 100 символов или специально сгенерированный фрагмент.
+          example: "Сегодня нужно сделать..."
+        updatedAt:
+          type: string
+          format: date-time
+          description: Время последнего обновления
+          example: "2024-01-17T14:30:00Z"
+
+    # Для полной заметки
+    Note:
+      type: object
+      required:
+        - id
+        - title
+        - content
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Уникальный идентификатор заметки
+          example: 1
+        title:
+          type: string
+          description: Заголовок заметки
+          minLength: 1
+          maxLength: 200
+          example: "Моя заметка"
+        content:
+          type: string
+          description: Полное содержимое заметки
+          maxLength: 10000
+          example: "Полное содержание заметки..."
+        createdAt:
+          type: string
+          format: date-time
+          description: Дата и время создания
+          example: "2024-01-15T10:30:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          description: Дата и время последнего обновления
+          example: "2024-01-16T14:45:00Z"
+
+    CreateNoteRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+          example: "Новая заметка"
+        content:
+          type: string
+          default: ""
+          maxLength: 10000
+          example: ""
+
+    UpdateNoteRequest:
+      type: object
+      required:
+        - title
+        - content
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+          example: "Обновленный заголовок"
+        content:
+          type: string
+          maxLength: 10000
+          example: "Обновленное содержание"
+
+  responses:
+    NotFound:
+      description: Заметка не найдена
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Note not found"
+              timestamp:
+                type: string
+                format: date-time
+                example: "2024-01-20T10:30:00Z"
+    
+    BadRequest:
+      description: Некорректные данные
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Invalid data provided"
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    field:
+                      type: string
+                      example: "title"
+                    message:
+                      type: string
+                      example: "Title cannot be empty"
+              timestamp:
+                type: string
+                format: date-time
+                example: "2024-01-20T10:30:00Z"
+    
+    ServerError:
+      description: Ошибка сервера
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Internal server error"
+              code:
+                type: string
+                example: "INTERNAL_SERVER_ERROR"
+              timestamp:
+                type: string
+                format: date-time
+                example: "2024-01-20T10:30:00Z"
+              requestId:
+                type: string
+                description: Идентификатор запроса для отладки
+                example: "req_123456789"
