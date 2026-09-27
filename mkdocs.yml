@@ -55,6 +55,28 @@ nav:
       - Главная: diagrams/index.md
       - Диаграмма последовательности: diagram.md
   - Обо мне: about/index.md
+markdown_extensions:
+  - admonition
+  - footnotes
+  - attr_list
+  - md_in_html
+  - def_list
+
+  - pymdownx.tabbed:
+      alternate_style: true
+
+  - pymdownx.details
+
+  - pymdownx.highlight:
+      anchor_linenums: true
+
+  - pymdownx.superfences
+
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+  - pymdownx.snippets  
 
 plugins:
   - search
