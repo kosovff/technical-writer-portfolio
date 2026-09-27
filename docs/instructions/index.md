@@ -22,4 +22,4 @@
 
 [Перейти к сценарию →](delete-note-scenario.md)
 
---8<-- "docs/note.md"
+--8<-- "docs/note.md:portfolio-note"
